@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Firewatch.Data\Firewatch.Data.csproj" />
+    <ProjectReference Include="..\Firewatch.Models\Firewatch.Models.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firewatch.App", "Firewatch.App\Firewatch.App.csproj", "{03DF09B5-D928-4BAC-99C8-F56416EB258B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firewatch.Models", "Firewatch.Models\Firewatch.Models.csproj", "{A6643011-8EF8-40A6-B4E3-0D400B5BF4A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firewatch.Services", "Firewatch.Services\Firewatch.Services.csproj", "{5BA38739-1FAB-48EF-93BA-19D5E5372D1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firewatch.Data", "Firewatch.Data\Firewatch.Data.csproj", "{C5E835AA-FBFA-422E-A807-D6E034F6D27C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03DF09B5-D928-4BAC-99C8-F56416EB258B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03DF09B5-D928-4BAC-99C8-F56416EB258B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03DF09B5-D928-4BAC-99C8-F56416EB258B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03DF09B5-D928-4BAC-99C8-F56416EB258B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6643011-8EF8-40A6-B4E3-0D400B5BF4A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6643011-8EF8-40A6-B4E3-0D400B5BF4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6643011-8EF8-40A6-B4E3-0D400B5BF4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6643011-8EF8-40A6-B4E3-0D400B5BF4A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BA38739-1FAB-48EF-93BA-19D5E5372D1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BA38739-1FAB-48EF-93BA-19D5E5372D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BA38739-1FAB-48EF-93BA-19D5E5372D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BA38739-1FAB-48EF-93BA-19D5E5372D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5E835AA-FBFA-422E-A807-D6E034F6D27C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5E835AA-FBFA-422E-A807-D6E034F6D27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5E835AA-FBFA-422E-A807-D6E034F6D27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5E835AA-FBFA-422E-A807-D6E034F6D27C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1AD04887-2899-4A7E-A913-FC120A48B2F0}
+	EndGlobalSection
+EndGlobal
