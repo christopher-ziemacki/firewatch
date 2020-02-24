@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Firewatch.Data.TransferModels
+namespace Firewatch.Data.Entities
 {
-    internal class Collection<T>
+    internal class EntityCollection<T>
     {
         public IEnumerable<T> Value { get; set; }
     }

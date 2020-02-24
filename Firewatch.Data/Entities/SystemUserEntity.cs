@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Firewatch.Data.TransferModels
+namespace Firewatch.Data.Entities
 {
-    internal class SystemUser
+    internal class SystemUserEntity
     {
         public Guid Id { get; set; }
 
