@@ -31,5 +31,15 @@ namespace Firewatch.Services
 
             return userHasAccess;
         }
+
+        public async Task<bool> DoesTeamAdministratorHaveAccess(string instanceUrlName)
+        {
+            if (instanceUrlName == null)
+            {
+                throw new ArgumentNullException(nameof(instanceUrlName));
+            }
+
+            return await DoesUserHaveAccess(instanceUrlName, "teklaad\\crmteamadmin");
+        }
     }
 }

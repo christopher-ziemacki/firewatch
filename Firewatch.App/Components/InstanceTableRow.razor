@@ -1,13 +1,24 @@
 ﻿@inherits InstanceTableRowBase
 
-<tr class="border border-bottom-0 border-right-0 border-left-0">
-    <td>@Instance.UniqueName</td>
-    <td>@Instance.Id</td>
-    <td>
-        <a href="@Instance.Url" target="_blank">@Instance.Url</a>
-    </td>
-    <td>@Instance.Version</td>
+    <tr class="border border-bottom-0 border-right-0 border-left-0">
+        <td>@Instance.UniqueName</td>
+        <td>@Instance.Id</td>
+        <td>
+            <a href="@Instance.Url" target="_blank">@Instance.Url</a>
+        </td>
+        <td>@Instance.Version</td>
 
+        <td>
+            <span class="btn">
+                @if (Instance.DoesCurrentUserHaveAccess)
+                {
+                    <span class="oi oi-lock-unlocked text-info" data-toggle="tooltip" data-placement="top" title="You have access"></span>
+                }
+                else
+                {
+                    <span class="oi oi-lock-locked text-warning" data-toggle="tooltip" data-placement="top" title="You do not have access"></span>
+                }
+            </span>
+        </td>
 
-
-</tr>
+    </tr>

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Firewatch.App.ViewModels;
+using Firewatch.App.Models;
 using Firewatch.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Firewatch.App.Pages
 {
@@ -15,22 +15,40 @@ namespace Firewatch.App.Pages
 
         [Inject] private IMapper Mapper { get; set; }
 
-        protected IEnumerable<InstanceTableRowData> InstanceTableData { get; set; }
+        [CascadingParameter] private Task<AuthenticationState> AuthenticationStateTask { get; set; }
+
+        protected IEnumerable<Instance> Instances { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
+            var authenticationState = await AuthenticationStateTask;
+            var userName = authenticationState.User.Identity.Name;
+
             var instances = await InstanceService.GetInstances();
 
-            InstanceTableData =
-                instances == null
-                    ? Enumerable.Empty<InstanceTableRowData>()
-                    : Mapper.Map<IEnumerable<InstanceTableRowData>>(instances);
-
-
-            InstanceService.GetInstances().ContinueWith(instance =>
+            var tasks = new List<Task>();
+            var results = new List<Instance>();
+            foreach (var instance in instances)
             {
+                var result = Mapper.Map<Instance>(instance);
+                results.Add(result);
 
-            });
+                var task = SystemUserService.DoesUserHaveAccess(instance.UrlName, userName).ContinueWith(t =>
+                {
+                    result.DoesCurrentUserHaveAccess = t.Result;
+                });
+
+                tasks.Add(task);
+
+                task = SystemUserService.DoesTeamAdministratorHaveAccess(instance.UrlName)
+                    .ContinueWith(t => { result.DoesTeamAdministratorHaveAccess = t.Result; });
+
+                tasks.Add(task);
+            }
+
+            await Task.WhenAll(tasks);
+
+            Instances = results;
         }
     }
 }

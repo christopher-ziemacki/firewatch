@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Firewatch.App.ViewModels
+namespace Firewatch.App.Models
 {
-    public class InstanceTableRowData
+    public class Instance
     {
         public Guid Id { get; set; }
         public string UniqueName { get; set; }
@@ -11,5 +11,6 @@ namespace Firewatch.App.ViewModels
         public string Version { get; set; }
 
         public bool DoesCurrentUserHaveAccess { get; set; }
+        public bool DoesTeamAdministratorHaveAccess { get; set; }
     }
 }

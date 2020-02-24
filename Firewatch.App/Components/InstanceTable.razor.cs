@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Firewatch.App.ViewModels;
+using Firewatch.App.Models;
 using Microsoft.AspNetCore.Components;
 
 namespace Firewatch.App.Components
@@ -7,6 +7,6 @@ namespace Firewatch.App.Components
     public class InstanceTableBase : ComponentBase
     {
         [Parameter]
-        public IEnumerable<InstanceTableRowData> Instances { get; set; }
+        public IEnumerable<Instance> Instances { get; set; }
     }
 }

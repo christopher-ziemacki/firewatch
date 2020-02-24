@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Firewatch.Common\Firewatch.Common.csproj" />
     <ProjectReference Include="..\Firewatch.Data\Firewatch.Data.csproj" />
     <ProjectReference Include="..\Firewatch.Models\Firewatch.Models.csproj" />
     <ProjectReference Include="..\Firewatch.Services\Firewatch.Services.csproj" />
