@@ -14,7 +14,7 @@ namespace Firewatch.App.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            FirewatchInstances = await FirewatchService.GetInstances();
+            FirewatchInstances = await FirewatchService.GetFirewatchInstances();
         }
     }
 }

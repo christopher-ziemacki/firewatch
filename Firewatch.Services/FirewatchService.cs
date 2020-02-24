@@ -21,7 +21,7 @@ namespace Firewatch.Services
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
-        public async Task<IEnumerable<FirewatchInstance>> GetInstances()
+        public async Task<IEnumerable<FirewatchInstance>> GetFirewatchInstances()
         {
             var instances = await _instanceService.GetInstances();
 
@@ -52,6 +52,11 @@ namespace Firewatch.Services
             await Task.WhenAll(tasks);
 
             return firewatchInstances;
+        }
+
+        public async Task<FirewatchInstance> GetFirewatchInstance()
+        {
+            return default;
         }
     }
 }

@@ -9,5 +9,12 @@ namespace Firewatch.App.Components
         public FirewatchInstance FirewatchInstance { get; set; }
 
         public Instance Instance => FirewatchInstance.Instance;
+
+        protected bool Collapsed { get; set; } = true;
+
+        public void OnExtendCollapseButtonClicked()
+        {
+            Collapsed = !Collapsed;
+        }
     }
 }
