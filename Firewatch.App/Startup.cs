@@ -6,6 +6,7 @@ using Firewatch.Data.Repositories;
 using Firewatch.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +27,8 @@ namespace Firewatch.App
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             RegisterHttpClient<IInstanceRepository, InstanceRepository>(services);
@@ -34,6 +37,8 @@ namespace Firewatch.App
 
             services.AddSingleton<IInstanceService, InstanceService>();
             services.AddSingleton<ISystemUserService, SystemUserService>();
+
+            services.AddSingleton<IFirewatchService, FirewatchService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

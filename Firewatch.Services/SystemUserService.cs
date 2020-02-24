@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Firewatch.Data.Repositories;
+using Firewatch.Models;
 
 namespace Firewatch.Services
 {
@@ -13,7 +14,7 @@ namespace Firewatch.Services
             _systemUserRepository = systemUserRepository ?? throw new ArgumentNullException(nameof(systemUserRepository));
         }
 
-        public async Task<bool> DoesUserHaveAccess(string instanceUrlName, string systemUserDomainName)
+        public async Task<SystemUser> GetSystemUser(string instanceUrlName, string systemUserDomainName)
         {
             if (instanceUrlName == null)
             {
@@ -26,20 +27,7 @@ namespace Firewatch.Services
             }
 
             var systemUser = await _systemUserRepository.GetSystemUser(instanceUrlName, systemUserDomainName);
-
-            var userHasAccess = systemUser != null && systemUser.IsDisabled == false;
-
-            return userHasAccess;
-        }
-
-        public async Task<bool> DoesTeamAdministratorHaveAccess(string instanceUrlName)
-        {
-            if (instanceUrlName == null)
-            {
-                throw new ArgumentNullException(nameof(instanceUrlName));
-            }
-
-            return await DoesUserHaveAccess(instanceUrlName, "teklaad\\crmteamadmin");
+            return systemUser;
         }
     }
 }

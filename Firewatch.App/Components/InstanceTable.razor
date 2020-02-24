@@ -1,6 +1,6 @@
 ﻿@inherits InstanceTableBase
 
-@if (Instances == null)
+@if (FirewatchInstances == null)
 {
 
 }
@@ -20,9 +20,9 @@ else
         </thead>
 
         <tbody>
-            @foreach (var instance in Instances)
+            @foreach (var firewatchInstance in FirewatchInstances)
             {
-                <InstanceTableRow Instance="@instance"/>
+                <InstanceTableRow FirewatchInstance="@firewatchInstance"/>
             }
         </tbody>
     </table>

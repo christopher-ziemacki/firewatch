@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Firewatch.Models;
 
 namespace Firewatch.Services
 {
     public interface ISystemUserService
     {
-        Task<bool> DoesUserHaveAccess(string instanceUrlName, string systemUserDomainName);
-        Task<bool> DoesTeamAdministratorHaveAccess(string instanceUrlName);
+        Task<SystemUser> GetSystemUser(string instanceUrlName, string systemUserDomainName);
     }
 }

@@ -10,7 +10,7 @@
 
         <td>
             <span class="btn">
-                @if (Instance.DoesCurrentUserHaveAccess)
+                @if (FirewatchInstance.DoesContextUserHaveAccess)
                 {
                     <span class="oi oi-lock-unlocked text-info" data-toggle="tooltip" data-placement="top" title="You have access"></span>
                 }
@@ -19,6 +19,20 @@
                     <span class="oi oi-lock-locked text-warning" data-toggle="tooltip" data-placement="top" title="You do not have access"></span>
                 }
             </span>
+        </td>
+        
+        <td>
+            <span class="btn">
+                @if (FirewatchInstance.RequiresAttention)
+                {
+                    <span class="oi oi-fire text-danger"></span>
+                }
+                else
+                {
+                    <span class="oi oi-fire text-secondary"></span>
+                }
+            </span>
+
         </td>
 
     </tr>
