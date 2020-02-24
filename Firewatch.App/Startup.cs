@@ -1,7 +1,9 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using AutoMapper;
 using Firewatch.Data.Repositories;
+using Firewatch.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,9 +26,14 @@ namespace Firewatch.App
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            AddRepository<IInstanceRepository, InstanceRepository>(services);
-            AddRepository<ISolutionRepository, SolutionRepository>(services);
-            AddRepository<ISystemUserRepository, SystemUserRepository>(services);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            RegisterHttpClient<IInstanceRepository, InstanceRepository>(services);
+            RegisterHttpClient<ISolutionRepository, SolutionRepository>(services);
+            RegisterHttpClient<ISystemUserRepository, SystemUserRepository>(services);
+
+            services.AddSingleton<IInstanceService, InstanceService>();
+            services.AddSingleton<ISystemUserService, SystemUserService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -52,7 +59,7 @@ namespace Firewatch.App
             });
         }
 
-        public static void AddRepository<T, TU>(IServiceCollection services) where T : class where TU : class, T
+        public static void RegisterHttpClient<T, TU>(IServiceCollection services) where T : class where TU : class, T
         {
             services.AddHttpClient<T, TU>(httpClient =>
             {

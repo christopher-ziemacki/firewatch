@@ -1,0 +1,29 @@
+﻿@inherits InstanceTableBase
+
+@if (Instances == null)
+{
+
+}
+else
+{
+    <table class="table table-borderless">
+        <thead>
+        <tr>
+            <th scope="col">Unique Name</th>
+            <th scope="col">Id</th>
+            <th scope="col">Url</th>
+            <th scope="col">Version</th>
+            <th>Access</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var instance in Instances)
+            {
+                <InstanceTableRow Instance="@instance"/>
+            }
+        </tbody>
+    </table>
+}

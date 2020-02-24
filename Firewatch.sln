@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firewatch.App", "Firewatch.App\Firewatch.App.csproj", "{03DF09B5-D928-4BAC-99C8-F56416EB258B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firewatch.App", "Firewatch.App\Firewatch.App.csproj", "{03DF09B5-D928-4BAC-99C8-F56416EB258B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firewatch.Models", "Firewatch.Models\Firewatch.Models.csproj", "{A6643011-8EF8-40A6-B4E3-0D400B5BF4A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firewatch.Models", "Firewatch.Models\Firewatch.Models.csproj", "{A6643011-8EF8-40A6-B4E3-0D400B5BF4A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firewatch.Services", "Firewatch.Services\Firewatch.Services.csproj", "{5BA38739-1FAB-48EF-93BA-19D5E5372D1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firewatch.Services", "Firewatch.Services\Firewatch.Services.csproj", "{5BA38739-1FAB-48EF-93BA-19D5E5372D1C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firewatch.Data", "Firewatch.Data\Firewatch.Data.csproj", "{C5E835AA-FBFA-422E-A807-D6E034F6D27C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Firewatch.Data", "Firewatch.Data\Firewatch.Data.csproj", "{C5E835AA-FBFA-422E-A807-D6E034F6D27C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
