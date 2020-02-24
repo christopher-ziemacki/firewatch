@@ -1,3 +1,7 @@
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Firewatch.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +23,10 @@ namespace Firewatch.App
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            AddRepository<IInstanceRepository, InstanceRepository>(services);
+            AddRepository<ISolutionRepository, SolutionRepository>(services);
+            AddRepository<ISystemUserRepository, SystemUserRepository>(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -41,6 +49,24 @@ namespace Firewatch.App
             {
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
+            });
+        }
+
+        public static void AddRepository<T, TU>(IServiceCollection services) where T : class where TU : class, T
+        {
+            services.AddHttpClient<T, TU>(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri("https://d-crm");
+                httpClient.Timeout = new TimeSpan(0, 0, 120);
+                httpClient.DefaultRequestHeaders.Clear();
+
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+
+            }).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler()
+            {
+                UseDefaultCredentials = true,
+                AutomaticDecompression = System.Net.DecompressionMethods.GZip
             });
         }
     }
