@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
 using Firewatch.Data.Entities;
-using Firewatch.Models;
 using Firewatch.Models.Resources;
 
 namespace Firewatch.Data.Repositories

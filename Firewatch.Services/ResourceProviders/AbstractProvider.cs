@@ -23,10 +23,13 @@ namespace Firewatch.Services.ResourceProviders
 
             var resource = await _repository.GetResource(resourceRequest.InstanceUrlName, resourceRequest.ResourceDescription.ResourceName);
 
-            if (resource != null)
+            if (resource == null)
             {
-                resource.ResourceType = resourceRequest.ResourceDescription.ResourceType;
+                return null;
             }
+
+            resource.InstanceId = resourceRequest.InstanceId;
+            resource.ResourceType = resourceRequest.ResourceDescription.ResourceType;
 
             return resource;
         }

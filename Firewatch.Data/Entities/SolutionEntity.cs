@@ -2,9 +2,9 @@
 
 namespace Firewatch.Data.Entities
 {
-    internal class SolutionEntity : Entity
+    internal class SolutionEntity
     {
-        public Guid Id { get; set; }
+        public Guid SolutionId { get; set; }
 
         public string UniqueName { get; set; }
     }

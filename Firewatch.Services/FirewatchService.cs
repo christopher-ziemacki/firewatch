@@ -48,6 +48,7 @@ namespace Firewatch.Services
             var tasks = instances.Select(instance => GetResources(instance, _resourceDescriptions)).ToList();
 
             var resourceCollections = await Task.WhenAll(tasks);
+
             return null;
         }
 
@@ -59,10 +60,8 @@ namespace Firewatch.Services
                 throw new ArgumentNullException(nameof(instance));
             }
 
-            var tasks = resourceDescriptions.Select(resourceDescription => GetResource(instance, resourceDescription))
-                .ToList();
-
-            return await Task.WhenAll(tasks);
+            var tasks = resourceDescriptions.Select(resourceDescription => GetResource(instance, resourceDescription)).ToList();
+            return await Task.WhenAll(tasks).ContinueWith(t => t.Result.Where(r => r != null).ToList());
         }
 
         private async Task<Resource> GetResource(Instance instance, ResourceDescription resourceDescription)
@@ -77,7 +76,6 @@ namespace Firewatch.Services
                 _resourceProviderFactory.CreateResourceProvider(resourceRequest.ResourceDescription.ResourceType);
 
             var resource = await resourceProvider.GetResource(resourceRequest);
-
             return resource;
         }
     }

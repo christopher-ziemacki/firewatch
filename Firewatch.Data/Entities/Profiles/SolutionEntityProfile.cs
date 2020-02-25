@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Firewatch.Models;
 using Firewatch.Models.Resources;
 
 namespace Firewatch.Data.Entities.Profiles
@@ -8,10 +7,7 @@ namespace Firewatch.Data.Entities.Profiles
     {
         public SolutionEntityProfile()
         {
-            CreateMap<SolutionEntity, SolutionResource>().ForMember(
-                dst => dst.InstanceId,
-                opt => opt.MapFrom(src => src.OrganizationId)
-            );
+            CreateMap<SolutionEntity, SolutionResource>();
         }
     }
 }

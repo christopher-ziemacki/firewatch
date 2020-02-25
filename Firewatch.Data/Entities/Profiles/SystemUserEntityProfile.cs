@@ -7,10 +7,7 @@ namespace Firewatch.Data.Entities.Profiles
     {
         public SystemUserEntityProfile()
         {
-            CreateMap<SystemUserEntity, SystemUserResource>().ForMember(
-                dst => dst.InstanceId,
-                opt => opt.MapFrom(src => src.OrganizationId)
-            );
+            CreateMap<SystemUserEntity, SystemUserResource>();
         }
     }
 }
