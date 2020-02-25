@@ -12,22 +12,17 @@ namespace Firewatch.Services
 {
     public class FirewatchService : IFirewatchService
     {
-        private readonly IResourceProviderFactory _resourceProviderFactory;
         private readonly IInstanceRepository _instanceRepository;
-        private readonly IResourceRepositoryEx _resourceRepositoryEx;
+        private readonly IResourceProvider _resourceProvider;
 
         private readonly ResourceDescription[] _resourceDescriptions;
 
-        public FirewatchService(IResourceProviderFactory resourceProviderFactory,
-            IInstanceRepository instanceRepository, IResourceRepositoryEx resourceRepositoryEx,
+        public FirewatchService(
+            IInstanceRepository instanceRepository, IResourceProvider resourceProvider,
             IHttpContextAccessor httpContextAccessor)
         {
-            _resourceProviderFactory = resourceProviderFactory ??
-                                       throw new ArgumentNullException(nameof(resourceProviderFactory));
-
             _instanceRepository = instanceRepository ?? throw new ArgumentNullException(nameof(instanceRepository));
-            _resourceRepositoryEx =
-                resourceRepositoryEx ?? throw new ArgumentNullException(nameof(resourceRepositoryEx));
+            _resourceProvider = resourceProvider ?? throw new ArgumentNullException(nameof(resourceProvider));
 
             if (httpContextAccessor == null)
             {
@@ -36,23 +31,17 @@ namespace Firewatch.Services
 
             _resourceDescriptions = new[]
             {
-                new ResourceDescription(new ResourceType("SystemUser", string.Empty, "Firewatch.Models.Resources.SystemUserResource"), "teklaad\\crmteamadmin"),
-                new ResourceDescription(new ResourceType("SystemUser", string.Empty, "Firewatch.Models.Resources.SystemUserResource"),
+                new ResourceDescription(SystemUserResource.SystemUserResourceType, "teklaad\\crmteamadmin"),
+                new ResourceDescription(SystemUserResource.SystemUserResourceType,
                     httpContextAccessor.HttpContext.User.Identity.Name),
 
-                new ResourceDescription(new ResourceType("Solution", string.Empty, string.Empty), "DataModelBase"),
-                new ResourceDescription(new ResourceType("Solution", string.Empty, string.Empty), "TrimbleSolutionsCore"),
+                new ResourceDescription(SolutionResource.SolutionResourceType, "DataModelBase"),
+                new ResourceDescription(SolutionResource.SolutionResourceType, "TrimbleSolutionsCore"),
             };
         }
 
         public async Task<IEnumerable<FirewatchInstance>> GetFirewatchInstances()
         {
-            var resource = await _resourceRepositoryEx.GetResource(new ResourceRequest(Guid.Parse("6f9f58c4-dbda-e911-9120-4c5262036875"),
-                "PR",
-                new ResourceDescription(
-                    new ResourceType("SystemUser", "{0}/api/data/v9.0/systemusers?$filter=domainname eq '{1}'", "Firewatch.Models.Resources.SystemUserResource"),
-                    "teklaad\\crmteamadmin")));
-
             var instances = await _instanceRepository.GetInstances();
 
             var tasks = instances.Select(instance => GetResources(instance, _resourceDescriptions)).ToList();
@@ -83,10 +72,8 @@ namespace Firewatch.Services
             }
 
             var resourceRequest = new ResourceRequest(instance.Id, instance.UrlName, resourceDescription);
-            var resourceProvider =
-                _resourceProviderFactory.CreateResourceProvider(resourceRequest.ResourceDescription.ResourceType);
-
-            var resource = await resourceProvider.GetResource(resourceRequest);
+         
+            var resource = await _resourceProvider.GetResource(resourceRequest);
             return resource;
         }
     }

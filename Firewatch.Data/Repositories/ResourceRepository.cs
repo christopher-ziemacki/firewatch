@@ -8,7 +8,7 @@ using Firewatch.Models.Resources;
 
 namespace Firewatch.Data.Repositories
 {
-    public class ResourceRepository : IResourceRepositoryEx
+    public class ResourceRepository : IResourceRepository
     {
         private readonly HttpClient _httpClient;
 
@@ -34,6 +34,12 @@ namespace Firewatch.Data.Repositories
 
             var content = await response.Content.ReadAsAsync<EntityCollection<T>>();
             var value = content.Value?.SingleOrDefault();
+            if (value == null)
+            {
+                return null;
+            }
+
+            value.InstanceId = resourceRequest.InstanceId;
 
             return value;
         }
@@ -42,12 +48,12 @@ namespace Firewatch.Data.Repositories
         {
             var resourceType = resourceRequest.ResourceDescription.ResourceType;
 
-            if (resourceType.Name == "SystemUser")
+            return resourceType.Name switch
             {
-                return await GetResource<SystemUserResource>(resourceRequest);
-            }
-
-            return null;
+                "SystemUser" => await GetResource<SystemUserResource>(resourceRequest),
+                "Solution" => await GetResource<SolutionResource>(resourceRequest),
+                _ => null
+            };
         }
     }
 }

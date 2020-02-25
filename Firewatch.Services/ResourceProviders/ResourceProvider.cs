@@ -5,11 +5,11 @@ using Firewatch.Models.Resources;
 
 namespace Firewatch.Services.ResourceProviders
 {
-    public class AbstractProvider<T, TU> : IResourceProvider where T : IResourceRepository<TU> where TU : Resource
+    public class ResourceProvider : IResourceProvider
     {
-        private readonly T _repository;
+        private readonly IResourceRepository _repository;
 
-        public AbstractProvider(T repository)
+        public ResourceProvider(IResourceRepository repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
@@ -17,7 +17,7 @@ namespace Firewatch.Services.ResourceProviders
         public async Task<Resource> GetResource(ResourceRequest resourceRequest)
         {
 
-            var resource = await _repository.GetResource(resourceRequest.InstanceUrlName, resourceRequest.ResourceDescription.ResourceName);
+            var resource = await _repository.GetResource(resourceRequest);
 
             if (resource == null)
             {

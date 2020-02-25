@@ -33,15 +33,9 @@ namespace Firewatch.App
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             RegisterHttpClient<IInstanceRepository, InstanceRepository>(services);
-            RegisterHttpClient<ISolutionRepository, SolutionRepository>(services);
-            RegisterHttpClient<ISystemUserRepository, SystemUserRepository>(services);
+            RegisterHttpClient<IResourceRepository, ResourceRepository>(services);
 
-            RegisterHttpClient<IResourceRepositoryEx, ResourceRepository>(services);
-
-            services.AddSingleton<IResourceProviderFactory, ResourceProviderFactory>();
-            services.AddSingleton<ISolutionProvider, SolutionProvider>();
-            services.AddSingleton<ISystemUserProvider, SystemUserProvider>();
-
+            services.AddSingleton<IResourceProvider, ResourceProvider>();
             services.AddSingleton<IFirewatchService, FirewatchService>();
         }
 
