@@ -23,7 +23,7 @@ namespace Firewatch.Data.Repositories
 
             var uri = new Uri(
                 string.Format(resourceType.UriTemplate, resourceRequest.InstanceUrlName,
-                    resourceRequest.ResourceDescription.ResourceName), UriKind.Relative);
+                    resourceRequest.ResourceDescription.ResourceId), UriKind.Relative);
 
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             var response = await _httpClient.SendAsync(request);
@@ -52,6 +52,7 @@ namespace Firewatch.Data.Repositories
             {
                 "SystemUser" => await GetResource<SystemUserResource>(resourceRequest),
                 "Solution" => await GetResource<SolutionResource>(resourceRequest),
+                "ExternalService" => await GetResource<ExternalServiceResource>(resourceRequest),
                 _ => null
             };
         }
