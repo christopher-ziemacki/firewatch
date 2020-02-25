@@ -8,7 +8,7 @@
     </td>
     <td>@Instance.Version</td>
 
-    <td>
+    @*<td>
         <span class="btn">
             @if (FirewatchInstance.DoesContextUserHaveAccess)
             {
@@ -41,20 +41,36 @@
             </a>
         </span>
 
-        <span>
-            <button class="btn" type="button" @onclick="OnExtendCollapseButtonClicked">
-                <span class="oi @(Collapsed ? "oi-expand-down" : "oi-collapse-up") text-secondary" data-toggle="tooltip" data-placement="top" title="Expand"></span>
-            </button>
-        </span>
+        @if (FirewatchInstance.RequiresAttention)
+        {
+            <span>
+                <button class="btn btn-light btn-outline-light " type="button" @onclick="OnExpandCollapseButtonClicked">
+                    <span class="oi @(Collapsed ? "oi-expand-down" : "oi-collapse-up") text-secondary" data-toggle="tooltip" data-placement="top" title="Expand"></span>
+                </button>
+            </span>
+        }
     </td>
 </tr>
 
-<tr>
-    <td colspan="7">
-        <div class="@(Collapsed ? "collapse" : "")" id="@Instance.Id">
-            <div class="card card-body">
-                Bla bla bla
+@if (FirewatchInstance.RequiresAttention)
+{
+    <tr class="@(Collapsed ? "collapse" : "")" id="@Instance.Id">
+        <td colspan="7">
+            <div>
+
+                    <ul class="list-group list-group-flush w-50 border border-danger">
+                        @if (FirewatchInstance.DoesTeamAdminUserHaveAccess == false)
+                        {
+                            <li class="list-group-item">teklaad\crmteamadmin access is not configured</li>
+                        }
+
+                        <li class="list-group-item">trasa dsa dsad sa dsa das da </li>
+                        <li class="list-group-item">trasa dsa dsad sa dsa das da </li>
+                        <li class="list-group-item">trasa dsa dsad sa dsa das da </li>
+
+                  
+                </ul>
             </div>
-        </div>
-    </td>
-</tr>
+        </td>*@
+    </tr>
+}

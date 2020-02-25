@@ -1,6 +1,6 @@
-﻿namespace Firewatch.Models
+﻿namespace Firewatch.Models.Resources
 {
-    public class SystemUser
+    public class SystemUserResource : Resource
     {
         public string DomainName { get; set; }
         public bool IsDisabled { get; set; }

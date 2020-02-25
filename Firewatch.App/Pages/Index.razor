@@ -2,17 +2,19 @@
 
 @inherits IndexBase;
 
-@if (FirewatchInstances == null)
-{
-    <div class="container h-100" >
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="spinner-border text-info" role="status" style="width: 6rem; height: 6rem;">
-                <span class="sr-only">Loading...</span>
+<div>
+    @if (FirewatchInstances == null)
+    {
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="spinner-border text-info" role="status" style="width: 6rem; height: 6rem;">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
-        </div>        
-    </div>
-}
-else
-{
-    <InstanceTable FirewatchInstances="@FirewatchInstances" />
-}
+        </div>
+    }
+    else
+    {
+        <InstanceTable FirewatchInstances="@FirewatchInstances" />
+    }
+</div>

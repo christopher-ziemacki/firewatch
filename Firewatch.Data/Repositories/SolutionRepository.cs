@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Firewatch.Data.Entities;
 using Firewatch.Models;
+using Firewatch.Models.Resources;
 
 namespace Firewatch.Data.Repositories
 {
@@ -20,7 +21,7 @@ namespace Firewatch.Data.Repositories
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<Solution> GetSolution(string instanceUrlName, string solutionUniqueName)
+        public async Task<SolutionResource> GetResource(string instanceUrlName, string solutionUniqueName)
         {
             if (instanceUrlName == null)
             {
@@ -45,7 +46,7 @@ namespace Firewatch.Data.Repositories
             var solutionEntityCollection = await response.Content.ReadAsAsync<EntityCollection<SolutionEntity>>();
             var solutionEntity = solutionEntityCollection?.Value?.SingleOrDefault();
 
-            var solution = solutionEntity == null ? null : _mapper.Map<Solution>(solutionEntity);
+            var solution = solutionEntity == null ? null : _mapper.Map<SolutionResource>(solutionEntity);
 
             return solution;
         }

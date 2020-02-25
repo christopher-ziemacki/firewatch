@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using AutoMapper;
 using Firewatch.Data.Repositories;
 using Firewatch.Services;
+using Firewatch.Services.ResourceProviders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,8 +36,9 @@ namespace Firewatch.App
             RegisterHttpClient<ISolutionRepository, SolutionRepository>(services);
             RegisterHttpClient<ISystemUserRepository, SystemUserRepository>(services);
 
-            services.AddSingleton<IInstanceService, InstanceService>();
-            services.AddSingleton<ISystemUserService, SystemUserService>();
+            services.AddSingleton<IResourceProviderFactory, ResourceProviderFactory>();
+            services.AddSingleton<ISolutionProvider, SolutionProvider>();
+            services.AddSingleton<ISystemUserProvider, SystemUserProvider>();
 
             services.AddSingleton<IFirewatchService, FirewatchService>();
         }

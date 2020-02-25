@@ -7,7 +7,5 @@ namespace Firewatch.Services
     public interface IFirewatchService
     {
         Task<IEnumerable<FirewatchInstance>> GetFirewatchInstances();
-
-        Task<FirewatchInstance> GetFirewatchInstance();
     }
 }

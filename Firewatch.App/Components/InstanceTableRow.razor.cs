@@ -12,7 +12,7 @@ namespace Firewatch.App.Components
 
         protected bool Collapsed { get; set; } = true;
 
-        public void OnExtendCollapseButtonClicked()
+        public void OnExpandCollapseButtonClicked()
         {
             Collapsed = !Collapsed;
         }

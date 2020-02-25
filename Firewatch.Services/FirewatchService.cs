@@ -1,62 +1,84 @@
-﻿using System;
+﻿using Firewatch.Models;
+using Firewatch.Services.ResourceProviders;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Firewatch.Models;
-using Microsoft.AspNetCore.Http;
+using Firewatch.Data.Repositories;
+using Firewatch.Models.Resources;
 
 namespace Firewatch.Services
 {
     public class FirewatchService : IFirewatchService
     {
-        private readonly IInstanceService _instanceService;
-        private readonly ISystemUserService _systemUserService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IResourceProviderFactory _resourceProviderFactory;
+        private readonly IInstanceRepository _instanceRepository;
 
-        public FirewatchService(IInstanceService instanceService, ISystemUserService systemUserService,
+        private readonly ResourceDescription[] _resourceDescriptions;
+
+        public FirewatchService(IResourceProviderFactory resourceProviderFactory,
+            IInstanceRepository instanceRepository,
             IHttpContextAccessor httpContextAccessor)
         {
-            _instanceService = instanceService ?? throw new ArgumentNullException(nameof(instanceService));
-            _systemUserService = systemUserService ?? throw new ArgumentNullException(nameof(systemUserService));
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            _resourceProviderFactory = resourceProviderFactory ??
+                                       throw new ArgumentNullException(nameof(resourceProviderFactory));
+            
+            _instanceRepository = instanceRepository ?? throw new ArgumentNullException(nameof(instanceRepository));
+
+            if (httpContextAccessor == null)
+            {
+                throw new ArgumentNullException(nameof(httpContextAccessor));
+            }
+
+            _resourceDescriptions = new[]
+            {
+                new ResourceDescription(ResourceType.SystemUser, "teklaad\\crmteamadmin"),
+                new ResourceDescription(ResourceType.SystemUser, httpContextAccessor.HttpContext.User.Identity.Name),
+
+                new ResourceDescription(ResourceType.Solution, "DataModelBase"),
+                new ResourceDescription(ResourceType.Solution, "TrimbleSolutionsCore"),
+            };
         }
 
         public async Task<IEnumerable<FirewatchInstance>> GetFirewatchInstances()
         {
-            var instances = await _instanceService.GetInstances();
+            var instances = await _instanceRepository.GetInstances();
 
-            var tasks = new List<Task>();
-            var firewatchInstances = instances.Select(instance =>
-            {
-                var firewatchInstance = new FirewatchInstance()
-                {
-                    Instance = instance
-                };
+            var tasks = instances.Select(instance => GetResources(instance, _resourceDescriptions)).ToList();
 
-                var getTeamAdminTask = _systemUserService
-                    .GetSystemUser(firewatchInstance.Instance.UrlName, "teklaad\\crmteamadmin")
-                    .ContinueWith(t => { firewatchInstance.TeamAdminUser = t.Result; });
-
-                tasks.Add(getTeamAdminTask);
-
-                var contextUserName = _httpContextAccessor.HttpContext.User.Identity.Name;
-                var getContextUserTask = _systemUserService
-                    .GetSystemUser(firewatchInstance.Instance.UrlName, contextUserName)
-                    .ContinueWith(t => { firewatchInstance.ContextUser = t.Result; });
-
-                tasks.Add(getContextUserTask);
-
-                return firewatchInstance;
-            }).ToArray();
-
-            await Task.WhenAll(tasks);
-
-            return firewatchInstances;
+            var resourceCollections = await Task.WhenAll(tasks);
+            return null;
         }
 
-        public async Task<FirewatchInstance> GetFirewatchInstance()
+        private async Task<IEnumerable<Resource>> GetResources(Instance instance,
+            IEnumerable<ResourceDescription> resourceDescriptions)
         {
-            return default;
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            var tasks = resourceDescriptions.Select(resourceDescription => GetResource(instance, resourceDescription))
+                .ToList();
+
+            return await Task.WhenAll(tasks);
+        }
+
+        private async Task<Resource> GetResource(Instance instance, ResourceDescription resourceDescription)
+        {
+            if (instance == null)
+            {
+                throw new ArgumentNullException(nameof(instance));
+            }
+
+            var resourceRequest = new ResourceRequest(instance.Id, instance.UrlName, resourceDescription);
+            var resourceProvider =
+                _resourceProviderFactory.CreateResourceProvider(resourceRequest.ResourceDescription.ResourceType);
+
+            var resource = await resourceProvider.GetResource(resourceRequest);
+
+            return resource;
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using Firewatch.Models;
+﻿using Firewatch.Models.Resources;
 
 namespace Firewatch.Data.Repositories
 {
-    public interface ISystemUserRepository
+    public interface ISystemUserRepository : IResourceRepository<SystemUserResource>
     {
-        Task<SystemUser> GetSystemUser(string instanceUrlName, string systemUserDomainName);
+
     }
 }

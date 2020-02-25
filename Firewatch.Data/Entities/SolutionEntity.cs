@@ -2,7 +2,7 @@
 
 namespace Firewatch.Data.Entities
 {
-    internal class SolutionEntity
+    internal class SolutionEntity : Entity
     {
         public Guid Id { get; set; }
 
