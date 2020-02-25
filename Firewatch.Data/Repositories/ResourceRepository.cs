@@ -53,6 +53,7 @@ namespace Firewatch.Data.Repositories
                 "SystemUser" => await GetResource<SystemUserResource>(resourceRequest),
                 "Solution" => await GetResource<SolutionResource>(resourceRequest),
                 "ExternalService" => await GetResource<ExternalServiceResource>(resourceRequest),
+                "SdkMessageProcessingStepSecureConfig" => await GetResource<SdkMessageProcessingStepSecureConfigResource>(resourceRequest),
                 _ => null
             };
         }

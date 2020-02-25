@@ -39,6 +39,8 @@ namespace Firewatch.Services
                 new ResourceDescription(SolutionResource.SolutionResourceType, "TrimbleSolutionsCore"),
 
                 new ResourceDescription(ExternalServiceResource.ExternalServiceResourceType, "6e0d59cf-6a5b-e911-9105-4c5262036875"),
+
+                new ResourceDescription(SdkMessageProcessingStepSecureConfigResource.SdkMessageProcessingStepSecureConfigResourceType, string.Empty),
             };
         }
 
