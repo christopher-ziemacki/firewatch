@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Firewatch.Models.Resources;
 
-namespace Firewatch.Services.ResourceProviders
+namespace Firewatch.Data.Repositories
 {
-    public interface IResourceProvider
+    public interface IResourceRepositoryEx
     {
         Task<Resource> GetResource(ResourceRequest resourceRequest);
     }

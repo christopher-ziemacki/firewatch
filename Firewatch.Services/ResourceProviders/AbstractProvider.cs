@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using AutoMapper;
 using Firewatch.Data.Repositories;
-using Firewatch.Models;
 using Firewatch.Models.Resources;
 
 namespace Firewatch.Services.ResourceProviders
@@ -10,12 +8,10 @@ namespace Firewatch.Services.ResourceProviders
     public class AbstractProvider<T, TU> : IResourceProvider where T : IResourceRepository<TU> where TU : Resource
     {
         private readonly T _repository;
-        private readonly IMapper _mapper;
 
-        public AbstractProvider(T repository, IMapper mapper)
+        public AbstractProvider(T repository)
         {
             _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<Resource> GetResource(ResourceRequest resourceRequest)

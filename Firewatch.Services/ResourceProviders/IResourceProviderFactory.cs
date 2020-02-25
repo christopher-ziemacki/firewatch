@@ -1,5 +1,4 @@
-﻿using Firewatch.Models;
-using Firewatch.Models.Resources;
+﻿using Firewatch.Models.Resources;
 
 namespace Firewatch.Services.ResourceProviders
 {

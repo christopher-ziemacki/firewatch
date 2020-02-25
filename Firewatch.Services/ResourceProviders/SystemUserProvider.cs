@@ -7,7 +7,7 @@ namespace Firewatch.Services.ResourceProviders
 {
     public class SystemUserProvider : AbstractProvider<ISystemUserRepository, SystemUserResource>, ISystemUserProvider
     {
-        public SystemUserProvider(ISystemUserRepository systemUserRepository, IMapper mapper) : base(systemUserRepository, mapper)
+        public SystemUserProvider(ISystemUserRepository systemUserRepository) : base(systemUserRepository)
         {
 
         }

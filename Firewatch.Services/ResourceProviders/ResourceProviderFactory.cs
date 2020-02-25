@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Firewatch.Models;
 using Firewatch.Models.Resources;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,8 +11,8 @@ namespace Firewatch.Services.ResourceProviders
 
         private readonly Dictionary<ResourceType, Type> _resourceTypeDictionary = new Dictionary<ResourceType, Type>()
         {
-            {ResourceType.Solution, typeof(ISolutionProvider) },
-            {ResourceType.SystemUser, typeof(ISystemUserProvider) }
+            {new ResourceType("Solution", string.Empty, "Firewatch.Models.Resources.SystemUserResource"), typeof(ISolutionProvider) },
+            {new ResourceType("SystemUser", string.Empty, ""), typeof(ISystemUserProvider) }
         };
 
         public ResourceProviderFactory(IServiceProvider serviceProvider)

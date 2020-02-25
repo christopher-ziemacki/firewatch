@@ -36,6 +36,8 @@ namespace Firewatch.App
             RegisterHttpClient<ISolutionRepository, SolutionRepository>(services);
             RegisterHttpClient<ISystemUserRepository, SystemUserRepository>(services);
 
+            RegisterHttpClient<IResourceRepositoryEx, ResourceRepository>(services);
+
             services.AddSingleton<IResourceProviderFactory, ResourceProviderFactory>();
             services.AddSingleton<ISolutionProvider, SolutionProvider>();
             services.AddSingleton<ISystemUserProvider, SystemUserProvider>();
