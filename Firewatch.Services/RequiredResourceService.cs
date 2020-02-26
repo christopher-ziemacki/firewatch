@@ -15,7 +15,8 @@ namespace Firewatch.Services
 
         private IEnumerable<RequiredResource> RequiredResources => _requiredResources.Value;
 
-        public RequiredResourceService(IResourceTypeService resourceTypeService, IHttpContextAccessor httpContextAccessor)
+        public RequiredResourceService(IResourceTypeService resourceTypeService,
+            IHttpContextAccessor httpContextAccessor)
         {
             _resourceTypeService = resourceTypeService ?? throw new ArgumentNullException(nameof(resourceTypeService));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
@@ -37,24 +38,20 @@ namespace Firewatch.Services
             var requiredResources = new List<RequiredResource>();
             foreach (var item in result)
             {
-                var requiredResource = new RequiredResource()
-                {
-                    ResourceDescription = new ResourceDescription()
-                    {
-                        ResourceType = _resourceTypeService.GetResourceType(item["ResourceType"]),
-                        ResourceId = item["ResourceId"]
-                    }
-                };
-                
-                var resourceTypeName = requiredResource.ResourceDescription.ResourceType.Name;
-                var resourceId = requiredResource.ResourceDescription.ResourceId;
+                var resourceType = _resourceTypeService.GetResourceType(item["ResourceType"]);
+                var resourceId = item["ResourceId"];
 
-                if (resourceTypeName == "SystemUser" && resourceId == "[[ContextUser]]")
+                if (resourceType.Name == "SystemUser" && resourceId == "[[ContextUser]]")
                 {
                     var userName = _httpContextAccessor.HttpContext.User.Identity.Name;
-                    requiredResource.ResourceDescription.ResourceId = userName;
+                    resourceId = userName;
                 }
 
+                var requiredResource = new RequiredResource()
+                {
+                    ResourceDescription = new ResourceDescription(resourceType, resourceId)
+                };
+            
                 requiredResources.Add(requiredResource);
             }
 

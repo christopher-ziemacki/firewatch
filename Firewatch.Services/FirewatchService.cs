@@ -33,18 +33,18 @@ namespace Firewatch.Services
 
         public async Task<IEnumerable<FirewatchInstance>> GetFirewatchInstances()
         {
-            var requiredResources = _requiredResourceService.GetRequiredResources();
+            var requiredResources = _requiredResourceService.GetRequiredResources().ToArray();
             var resourceDescriptions = requiredResources.Select(rr => rr.ResourceDescription);
 
             var instances = await _instanceRepository.GetInstances();
 
             var tasks = instances.Select(async instance => new FirewatchInstance()
-                    {Instance = instance, Resources = await GetResources(instance, resourceDescriptions)})
+                    {Instance = instance, RequiredResources = requiredResources, Resources = await GetResources(instance, resourceDescriptions)})
                 .ToList();
 
-            var resourceCollections = await Task.WhenAll(tasks);
+            var firewatchInstances = await Task.WhenAll(tasks);
 
-            return null;
+            return firewatchInstances;
         }
 
         private async Task<IEnumerable<Resource>> GetResources(Instance instance,
