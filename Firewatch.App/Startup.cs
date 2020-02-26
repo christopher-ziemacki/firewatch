@@ -34,10 +34,9 @@ namespace Firewatch.App
             RegisterHttpClient<IInstanceRepository, InstanceRepository>(services);
             RegisterHttpClient<IResourceRepository, ResourceRepository>(services);
 
-            services.AddSingleton<IFirewatchService, FirewatchService>();
-            services.AddSingleton<IResourceTypeService, ResourceTypeService>();
-            services.AddSingleton<IExpectedResourceService, ExpectedResourceService>();
-
+            services.AddScoped<IFirewatchService, FirewatchService>();
+            services.AddScoped<IResourceTypeService, ResourceTypeService>();
+            services.AddScoped<IExpectedResourceService, ExpectedResourceService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
