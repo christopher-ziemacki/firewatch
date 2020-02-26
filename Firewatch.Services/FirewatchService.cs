@@ -13,19 +13,15 @@ namespace Firewatch.Services
     {
         private readonly IInstanceRepository _instanceRepository;
         private readonly IResourceRepository _resourceRepository;
-        private readonly IResourceTypeService _resourceTypeService;
         private readonly IRequiredResourceService _requiredResourceService;
-
-        private readonly ResourceDescription[] _resourceDescriptions;
 
         public FirewatchService(
             IInstanceRepository instanceRepository, IResourceRepository resourceRepository,
-            IResourceTypeService resourceTypeService, IRequiredResourceService requiredResourceService,
+            IRequiredResourceService requiredResourceService,
             IHttpContextAccessor httpContextAccessor)
         {
             _instanceRepository = instanceRepository ?? throw new ArgumentNullException(nameof(instanceRepository));
             _resourceRepository = resourceRepository ?? throw new ArgumentNullException(nameof(resourceRepository));
-            _resourceTypeService = resourceTypeService ?? throw new ArgumentNullException(nameof(resourceTypeService));
             _requiredResourceService = requiredResourceService ??
                                        throw new ArgumentNullException(nameof(requiredResourceService));
 
@@ -33,38 +29,16 @@ namespace Firewatch.Services
             {
                 throw new ArgumentNullException(nameof(httpContextAccessor));
             }
-
-            var requiredResources = _requiredResourceService.GetRequiredResources();
-
-            _resourceDescriptions = new[]
-            {
-                new ResourceDescription()
-                {
-                    ResourceId = "teklaad\\crmteamadmin",
-                    ResourceType = _resourceTypeService.GetResourceType("SystemUser")
-                },
-            };
-
-            //_resourceDescriptions = new[]
-            //{
-            //    new ResourceDescription(SystemUserResource.SystemUserResourceType, "teklaad\\crmteamadmin"),
-            //    new ResourceDescription(SystemUserResource.SystemUserResourceType,
-            //        httpContextAccessor.HttpContext.User.Identity.Name),
-
-            //    new ResourceDescription(SolutionResource.SolutionResourceType, "DataModelBase"),
-            //    new ResourceDescription(SolutionResource.SolutionResourceType, "TrimbleSolutionsCore"),
-
-            //    new ResourceDescription(ExternalServiceResource.ExternalServiceResourceType, "6e0d59cf-6a5b-e911-9105-4c5262036875"),
-
-            //    new ResourceDescription(SdkMessageProcessingStepSecureConfigResource.SdkMessageProcessingStepSecureConfigResourceType, string.Empty),
-            //};
         }
 
         public async Task<IEnumerable<FirewatchInstance>> GetFirewatchInstances()
         {
+            var requiredResources = _requiredResourceService.GetRequiredResources();
+            var resourceDescriptions = requiredResources.Select(rr => rr.ResourceDescription);
+
             var instances = await _instanceRepository.GetInstances();
 
-            var tasks = instances.Select(instance => GetResources(instance, _resourceDescriptions)).ToList();
+            var tasks = instances.Select(instance => GetResources(instance, resourceDescriptions)).ToList();
 
             var resourceCollections = await Task.WhenAll(tasks);
 
