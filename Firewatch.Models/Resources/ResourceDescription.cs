@@ -25,20 +25,15 @@ namespace Firewatch.Models.Resources
 
             return this == (ResourceDescription)obj;
         }
-
-        public override int GetHashCode()
-        {
-            return ResourceType.GetHashCode() ^ ResourceId.GetHashCode();
-        }
-
+        
         public static bool operator ==(ResourceDescription rd1, ResourceDescription rd2)
         {
-            if (rd1 == null && rd2 == null)
+            if (rd1 is null && rd2 is null)
             {
                 return true;
             }
 
-            if (rd1 == null || rd2 == null)
+            if (rd1 is null || rd2 is null)
             {
                 return false;
             }

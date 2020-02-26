@@ -36,7 +36,7 @@ namespace Firewatch.App
 
             services.AddSingleton<IFirewatchService, FirewatchService>();
             services.AddSingleton<IResourceTypeService, ResourceTypeService>();
-            services.AddSingleton<IRequiredResourceService, RequiredResourceService>();
+            services.AddSingleton<IExpectedResourceService, ExpectedResourceService>();
 
         }
 

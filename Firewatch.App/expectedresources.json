@@ -1,0 +1,32 @@
+﻿[
+  {
+    "ResourceType": "SystemUser",
+    "ResourceId": "teklaad\\adm_crm",
+    "Required": "true"
+  },
+  {
+    "ResourceType": "SystemUser",
+    "ResourceId": "[[ContextUser]]",
+    "Required": "false"
+  },
+  {
+    "ResourceType": "Solution",
+    "ResourceId": "DataModelBase",
+    "Required": "true"
+  },
+  {
+    "ResourceType": "Solution",
+    "ResourceId": "TrimbleSolutionsCore",
+    "Required": "true"
+  },
+  {
+    "ResourceType": "ExternalService",
+    "ResourceId": "6e0d59cf-6a5b-e911-9105-4c5262036875",
+    "Required": "true"
+  },
+  {
+    "ResourceType": "SdkMessageProcessingStepSecureConfig",
+    "ResourceId": "",
+    "Required": "true"
+  }
+]

@@ -1,17 +1,20 @@
 ﻿namespace Firewatch.Models.Resources
 {
-    public class RequiredResource
+    public class ExpectedResource
     {
         public ResourceDescription ResourceDescription { get; set; }
 
-        public RequiredResource()
+        public bool Required { get; set; }
+
+        public ExpectedResource()
         {
             
         }
 
-        public RequiredResource(ResourceDescription resourceDescription)
+        public ExpectedResource(ResourceDescription resourceDescription, bool required)
         {
             ResourceDescription = resourceDescription;
+            Required = required;
         }
     }
 }

@@ -7,35 +7,35 @@ using Newtonsoft.Json;
 
 namespace Firewatch.Services
 {
-    public class RequiredResourceService : IRequiredResourceService
+    public class ExpectedResourceService : IExpectedResourceService
     {
         private readonly IResourceTypeService _resourceTypeService;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly Lazy<IEnumerable<RequiredResource>> _requiredResources;
+        private readonly Lazy<IEnumerable<ExpectedResource>> _expectedResources;
 
-        private IEnumerable<RequiredResource> RequiredResources => _requiredResources.Value;
+        private IEnumerable<ExpectedResource> ExpectedResources => _expectedResources.Value;
 
-        public RequiredResourceService(IResourceTypeService resourceTypeService,
+        public ExpectedResourceService(IResourceTypeService resourceTypeService,
             IHttpContextAccessor httpContextAccessor)
         {
             _resourceTypeService = resourceTypeService ?? throw new ArgumentNullException(nameof(resourceTypeService));
             _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
-            _requiredResources = new Lazy<IEnumerable<RequiredResource>>(LoadRequiredResources);
+            _expectedResources = new Lazy<IEnumerable<ExpectedResource>>(LoadExpectedResources);
         }
 
-        public IEnumerable<RequiredResource> GetRequiredResources()
+        public IEnumerable<ExpectedResource> GetExpectedResources()
         {
-            return RequiredResources;
+            return ExpectedResources;
         }
 
-        private IEnumerable<RequiredResource> LoadRequiredResources()
+        private IEnumerable<ExpectedResource> LoadExpectedResources()
         {
-            using var sr = new StreamReader("requiredresources.json");
+            using var sr = new StreamReader("expectedresources.json");
             var content = sr.ReadToEnd();
 
             var result = JsonConvert.DeserializeObject<IEnumerable<IDictionary<string, string>>>(content);
 
-            var requiredResources = new List<RequiredResource>();
+            var expectedResources = new List<ExpectedResource>();
             foreach (var item in result)
             {
                 var resourceType = _resourceTypeService.GetResourceType(item["ResourceType"]);
@@ -47,15 +47,16 @@ namespace Firewatch.Services
                     resourceId = userName;
                 }
 
-                var requiredResource = new RequiredResource()
+                var expectedResource = new ExpectedResource()
                 {
-                    ResourceDescription = new ResourceDescription(resourceType, resourceId)
+                    ResourceDescription = new ResourceDescription(resourceType, resourceId),
+                    Required = bool.Parse(item["Required"])
                 };
             
-                requiredResources.Add(requiredResource);
+                expectedResources.Add(expectedResource);
             }
 
-            return requiredResources;
+            return expectedResources;
         }
     }
 }

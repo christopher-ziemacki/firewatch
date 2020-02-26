@@ -3,8 +3,8 @@ using Firewatch.Models.Resources;
 
 namespace Firewatch.Services
 {
-    public interface IRequiredResourceService
+    public interface IExpectedResourceService
     {
-        IEnumerable<RequiredResource> GetRequiredResources();
+        IEnumerable<ExpectedResource> GetExpectedResources();
     }
 }

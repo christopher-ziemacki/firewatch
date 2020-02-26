@@ -13,11 +13,11 @@ namespace Firewatch.Services
     {
         private readonly IInstanceRepository _instanceRepository;
         private readonly IResourceRepository _resourceRepository;
-        private readonly IRequiredResourceService _requiredResourceService;
+        private readonly IExpectedResourceService _requiredResourceService;
 
         public FirewatchService(
             IInstanceRepository instanceRepository, IResourceRepository resourceRepository,
-            IRequiredResourceService requiredResourceService,
+            IExpectedResourceService requiredResourceService,
             IHttpContextAccessor httpContextAccessor)
         {
             _instanceRepository = instanceRepository ?? throw new ArgumentNullException(nameof(instanceRepository));
@@ -33,17 +33,17 @@ namespace Firewatch.Services
 
         public async Task<IEnumerable<FirewatchInstance>> GetFirewatchInstances()
         {
-            var requiredResources = _requiredResourceService.GetRequiredResources().ToArray();
+            var requiredResources = _requiredResourceService.GetExpectedResources().ToArray();
             var resourceDescriptions = requiredResources.Select(rr => rr.ResourceDescription);
 
             var instances = await _instanceRepository.GetInstances();
 
             var tasks = instances.Select(async instance => new FirewatchInstance()
-                    {Instance = instance, RequiredResources = requiredResources, Resources = await GetResources(instance, resourceDescriptions)})
+                    {Instance = instance, ExpectedResources = requiredResources, Resources = await GetResources(instance, resourceDescriptions)})
                 .ToList();
 
             var firewatchInstances = await Task.WhenAll(tasks);
-
+            
             return firewatchInstances;
         }
 
