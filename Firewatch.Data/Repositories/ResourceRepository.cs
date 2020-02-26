@@ -6,16 +6,19 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Firewatch.Data.Entities;
 using Firewatch.Models.Resources;
+using Microsoft.AspNetCore.Http;
 
 namespace Firewatch.Data.Repositories
 {
     public class ResourceRepository : IResourceRepository
     {
         private readonly HttpClient _httpClient;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ResourceRepository(HttpClient httpClient)
+        public ResourceRepository(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
         }
 
         public async Task<Resource> GetResource(ResourceRequest resourceRequest)
@@ -65,6 +68,12 @@ namespace Firewatch.Data.Repositories
             {
                 var value = entityProperties[property.JsonProperty.ToLower()];
                 resource.Values[property.Name] = new ResourceValue(property, value);
+            }
+
+            if (resourceType.Name == "SystemUser" && resource.Values["DomainName"].Value ==
+                _httpContextAccessor.HttpContext.User.Identity.Name)
+            {
+                resource.Values["IsContextUser"] = new ResourceValue(null, "true");
             }
 
             return resource;

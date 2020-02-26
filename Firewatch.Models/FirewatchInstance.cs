@@ -12,6 +12,24 @@ namespace Firewatch.Models
 
         public IEnumerable<Resource> Resources { get; set; }
 
+        public bool AreResourcesMissing
+        {
+            get
+            {
+                var missingResources = GetMissingResources();
+                return missingResources != null && missingResources.Any();
+            }
+        }
+
+        public bool DoesContextUserHaveAccess
+        {
+            get
+            {
+                return Resources.Any(resource =>
+                    resource.Values.Any(kv => kv.Key == "IsContextUser" && kv.Value.Value == "true"));
+            }
+        }
+        
         public IEnumerable<ExpectedResource> GetMissingResources()
         {
             return ExpectedResources.Where(expectedResource => expectedResource.Required != false)
