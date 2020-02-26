@@ -43,8 +43,8 @@ namespace Firewatch.Services
                 .ToList();
 
             var firewatchInstances = await Task.WhenAll(tasks);
-            
-            return firewatchInstances;
+
+            return firewatchInstances.OrderBy(fi => fi.Instance.UniqueName);
         }
 
         private async Task<IEnumerable<Resource>> GetResources(Instance instance,

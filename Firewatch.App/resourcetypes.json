@@ -29,7 +29,7 @@
   },
   {
     "Name": "SdkMessageProcessingStepSecureConfig",
-    "UriTemplate": "{0}/api/data/v9.0/sdkmessageprocessingstepsecureconfigs"
+    "UriTemplate": "{0}/api/data/v9.0/sdkmessageprocessingstepsecureconfigs?$filter=sdkmessageprocessingstepsecureconfigid eq {1}"
   },
   {
     "Name": "ExternalService",

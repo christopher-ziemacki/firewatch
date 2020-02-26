@@ -23,10 +23,10 @@
     "ResourceType": "ExternalService",
     "ResourceId": "6e0d59cf-6a5b-e911-9105-4c5262036875",
     "Required": "true"
+  },
+  {
+    "ResourceType": "SdkMessageProcessingStepSecureConfig",
+    "ResourceId": "821ae1db-c5a6-403e-b999-a094cfd00818",
+    "Required": "true"
   }
-  //{
-  //  "ResourceType": "SdkMessageProcessingStepSecureConfig",
-  //  "ResourceId": "",
-  //  "Required": "true"
-  //}
 ]
