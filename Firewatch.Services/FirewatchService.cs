@@ -1,5 +1,4 @@
 ﻿using Firewatch.Models;
-using Firewatch.Services.ResourceProviders;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -14,15 +13,17 @@ namespace Firewatch.Services
     {
         private readonly IInstanceRepository _instanceRepository;
         private readonly IResourceProvider _resourceProvider;
+        private readonly IResourceTypeService _resourceTypeService;
 
         private readonly ResourceDescription[] _resourceDescriptions;
 
         public FirewatchService(
-            IInstanceRepository instanceRepository, IResourceProvider resourceProvider,
+            IInstanceRepository instanceRepository, IResourceProvider resourceProvider, IResourceTypeService resourceTypeService,
             IHttpContextAccessor httpContextAccessor)
         {
             _instanceRepository = instanceRepository ?? throw new ArgumentNullException(nameof(instanceRepository));
             _resourceProvider = resourceProvider ?? throw new ArgumentNullException(nameof(resourceProvider));
+            _resourceTypeService = resourceTypeService ?? throw new ArgumentNullException(nameof(resourceTypeService));
 
             if (httpContextAccessor == null)
             {
@@ -31,17 +32,26 @@ namespace Firewatch.Services
 
             _resourceDescriptions = new[]
             {
-                new ResourceDescription(SystemUserResource.SystemUserResourceType, "teklaad\\crmteamadmin"),
-                new ResourceDescription(SystemUserResource.SystemUserResourceType,
-                    httpContextAccessor.HttpContext.User.Identity.Name),
-
-                new ResourceDescription(SolutionResource.SolutionResourceType, "DataModelBase"),
-                new ResourceDescription(SolutionResource.SolutionResourceType, "TrimbleSolutionsCore"),
-
-                new ResourceDescription(ExternalServiceResource.ExternalServiceResourceType, "6e0d59cf-6a5b-e911-9105-4c5262036875"),
-
-                new ResourceDescription(SdkMessageProcessingStepSecureConfigResource.SdkMessageProcessingStepSecureConfigResourceType, string.Empty),
+                new ResourceDescription()
+                {
+                    ResourceId = "teklaad\\crmteamadmin",
+                    ResourceType = _resourceTypeService.GetResourceType("SystemUser")
+                }, 
             };
+
+            //_resourceDescriptions = new[]
+            //{
+            //    new ResourceDescription(SystemUserResource.SystemUserResourceType, "teklaad\\crmteamadmin"),
+            //    new ResourceDescription(SystemUserResource.SystemUserResourceType,
+            //        httpContextAccessor.HttpContext.User.Identity.Name),
+
+            //    new ResourceDescription(SolutionResource.SolutionResourceType, "DataModelBase"),
+            //    new ResourceDescription(SolutionResource.SolutionResourceType, "TrimbleSolutionsCore"),
+
+            //    new ResourceDescription(ExternalServiceResource.ExternalServiceResourceType, "6e0d59cf-6a5b-e911-9105-4c5262036875"),
+
+            //    new ResourceDescription(SdkMessageProcessingStepSecureConfigResource.SdkMessageProcessingStepSecureConfigResourceType, string.Empty),
+            //};
         }
 
         public async Task<IEnumerable<FirewatchInstance>> GetFirewatchInstances()

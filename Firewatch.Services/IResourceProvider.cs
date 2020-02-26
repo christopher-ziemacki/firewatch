@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Firewatch.Models.Resources;
 
-namespace Firewatch.Services.ResourceProviders
+namespace Firewatch.Services
 {
     public interface IResourceProvider
     {

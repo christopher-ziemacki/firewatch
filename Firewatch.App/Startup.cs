@@ -4,7 +4,6 @@ using System.Net.Http.Headers;
 using AutoMapper;
 using Firewatch.Data.Repositories;
 using Firewatch.Services;
-using Firewatch.Services.ResourceProviders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -37,6 +36,8 @@ namespace Firewatch.App
 
             services.AddSingleton<IResourceProvider, ResourceProvider>();
             services.AddSingleton<IFirewatchService, FirewatchService>();
+
+            services.AddSingleton<IResourceTypeService, ResourceTypeService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

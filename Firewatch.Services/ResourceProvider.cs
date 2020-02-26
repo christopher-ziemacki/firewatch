@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Firewatch.Data.Repositories;
 using Firewatch.Models.Resources;
 
-namespace Firewatch.Services.ResourceProviders
+namespace Firewatch.Services
 {
     public class ResourceProvider : IResourceProvider
     {
@@ -25,7 +25,7 @@ namespace Firewatch.Services.ResourceProviders
             }
 
             resource.InstanceId = resourceRequest.InstanceId;
-            resource.ResourceType = resourceRequest.ResourceDescription.ResourceType;
+            resource.ResourceDescription = resourceRequest.ResourceDescription;
 
             return resource;
         }

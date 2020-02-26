@@ -1,31 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Firewatch.Models.Resources
 {
-    public readonly struct ResourceType
+    public class ResourceType
     {
-        public string Name { get; }
-        public string UriTemplate { get; }
-        public Type ModelType { get; }
+        public string Name { get; set; }
+        public string UriTemplate { get; set; }
 
-        public ResourceType(string name, string uriTemplate, string modelTypeName)
+        public IEnumerable<ResourceProperty> Properties { get; set; }
+
+        public ResourceType()
+        {
+
+        }
+
+        public ResourceType(string name, string uriTemplate, IEnumerable<ResourceProperty> resourceProperties)
         {
             Name = name;
             UriTemplate = uriTemplate;
-
-            var asm = typeof(Resource).Assembly;
-            ModelType = asm.GetType("Firewatch.Models.Resources.SystemUserResource");
+            Properties = resourceProperties ?? throw new ArgumentNullException(nameof(resourceProperties));
         }
-
-        public override bool Equals(object obj) =>
-            obj is ResourceType resourceType && this == resourceType;
-
-        public override int GetHashCode() => Name.GetHashCode() ^ UriTemplate.GetHashCode() ^ ModelType.GetHashCode();
-
-        public static bool operator ==(ResourceType rt1, ResourceType rt2) =>
-            rt1.Name == rt2.Name && rt1.UriTemplate == rt2.UriTemplate && rt1.ModelType == rt2.ModelType;
-
-        public static bool operator !=(ResourceType rt1, ResourceType rt2) =>
-            rt1.Name != rt2.Name || rt1.UriTemplate != rt2.UriTemplate || rt1.ModelType != rt2.ModelType;
     }
 }

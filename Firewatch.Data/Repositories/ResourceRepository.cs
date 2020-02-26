@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -48,14 +49,47 @@ namespace Firewatch.Data.Repositories
         {
             var resourceType = resourceRequest.ResourceDescription.ResourceType;
 
-            return resourceType.Name switch
+            var uriStr = string.Format(resourceType.UriTemplate, resourceRequest.InstanceUrlName,
+                resourceRequest.ResourceDescription.ResourceId, string.Empty);
+
+            if (resourceType.Properties != null && resourceType.Properties.Any())
             {
-                "SystemUser" => await GetResource<SystemUserResource>(resourceRequest),
-                "Solution" => await GetResource<SolutionResource>(resourceRequest),
-                "ExternalService" => await GetResource<ExternalServiceResource>(resourceRequest),
-                "SdkMessageProcessingStepSecureConfig" => await GetResource<SdkMessageProcessingStepSecureConfigResource>(resourceRequest),
-                _ => null
-            };
+                var selectedProperties = string.Join(",", resourceType.Properties.Select(p => p.JsonProperty.ToLower()));
+                uriStr = uriStr.Contains("?")
+                    ? $"{uriStr}&$select={selectedProperties}"
+                    : $"{uriStr}?$select={selectedProperties}";
+            }
+
+            var uri = new Uri(uriStr, UriKind.Relative);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, uri);
+            var response = await _httpClient.SendAsync(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return default;
+            }
+
+            var content = await response.Content.ReadAsAsync<EntityCollection<IDictionary<string, string>>>();
+
+            var entityProperties = content?.Value?.SingleOrDefault();
+            if (entityProperties == null)
+            {
+                return null;
+            }
+
+            var resource = new Resource();
+            if (resourceType.Properties == null)
+            {
+                return resource;
+            }
+
+            foreach (var property in resourceType.Properties)
+            {
+                var value = entityProperties[property.JsonProperty.ToLower()];
+                resource.Values[property.Name] = new ResourceValue(property, value);
+            }
+
+            return resource;
         }
     }
 }
