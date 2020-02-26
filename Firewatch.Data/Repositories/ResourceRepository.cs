@@ -18,33 +18,6 @@ namespace Firewatch.Data.Repositories
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<T> GetResource<T>(ResourceRequest resourceRequest) where T : Resource, new()
-        {
-            var resourceType = resourceRequest.ResourceDescription.ResourceType;
-
-            var uri = new Uri(
-                string.Format(resourceType.UriTemplate, resourceRequest.InstanceUrlName,
-                    resourceRequest.ResourceDescription.ResourceId), UriKind.Relative);
-
-            var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            var response = await _httpClient.SendAsync(request);
-            if (response.StatusCode != HttpStatusCode.OK)
-            {
-                return default;
-            }
-
-            var content = await response.Content.ReadAsAsync<EntityCollection<T>>();
-            var value = content.Value?.SingleOrDefault();
-            if (value == null)
-            {
-                return null;
-            }
-
-            value.InstanceId = resourceRequest.InstanceId;
-
-            return value;
-        }
-
         public async Task<Resource> GetResource(ResourceRequest resourceRequest)
         {
             var resourceType = resourceRequest.ResourceDescription.ResourceType;
@@ -54,7 +27,8 @@ namespace Firewatch.Data.Repositories
 
             if (resourceType.Properties != null && resourceType.Properties.Any())
             {
-                var selectedProperties = string.Join(",", resourceType.Properties.Select(p => p.JsonProperty.ToLower()));
+                var selectedProperties =
+                    string.Join(",", resourceType.Properties.Select(p => p.JsonProperty.ToLower()));
                 uriStr = uriStr.Contains("?")
                     ? $"{uriStr}&$select={selectedProperties}"
                     : $"{uriStr}?$select={selectedProperties}";
@@ -77,7 +51,11 @@ namespace Firewatch.Data.Repositories
                 return null;
             }
 
-            var resource = new Resource();
+            var resource = new Resource
+            {
+                InstanceId = resourceRequest.InstanceId, ResourceDescription = resourceRequest.ResourceDescription
+            };
+
             if (resourceType.Properties == null)
             {
                 return resource;

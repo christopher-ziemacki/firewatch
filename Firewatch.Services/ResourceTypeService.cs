@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Firewatch.Models.Resources;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Firewatch.Services
 {
@@ -28,10 +30,12 @@ namespace Firewatch.Services
 
         private IDictionary<string, ResourceType> LoadResourceTypes()
         {
-            var value = _configuration.GetSection("ResourceConfiguration:ResourceTypes");
-
-            var result = value.Get<IEnumerable<ResourceType>>().ToDictionary(type => type.Name, type => type);
-
+            using var sr = new StreamReader("resourcetypes.json");
+            var content = sr.ReadToEnd();
+            
+            var result = JsonConvert.DeserializeObject<IEnumerable<ResourceType>>(content)
+                .ToDictionary(type => type.Name, type => type);
+            
             return result;
         }
 

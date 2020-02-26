@@ -12,23 +12,29 @@ namespace Firewatch.Services
     public class FirewatchService : IFirewatchService
     {
         private readonly IInstanceRepository _instanceRepository;
-        private readonly IResourceProvider _resourceProvider;
+        private readonly IResourceRepository _resourceRepository;
         private readonly IResourceTypeService _resourceTypeService;
+        private readonly IRequiredResourceService _requiredResourceService;
 
         private readonly ResourceDescription[] _resourceDescriptions;
 
         public FirewatchService(
-            IInstanceRepository instanceRepository, IResourceProvider resourceProvider, IResourceTypeService resourceTypeService,
+            IInstanceRepository instanceRepository, IResourceRepository resourceRepository,
+            IResourceTypeService resourceTypeService, IRequiredResourceService requiredResourceService,
             IHttpContextAccessor httpContextAccessor)
         {
             _instanceRepository = instanceRepository ?? throw new ArgumentNullException(nameof(instanceRepository));
-            _resourceProvider = resourceProvider ?? throw new ArgumentNullException(nameof(resourceProvider));
+            _resourceRepository = resourceRepository ?? throw new ArgumentNullException(nameof(resourceRepository));
             _resourceTypeService = resourceTypeService ?? throw new ArgumentNullException(nameof(resourceTypeService));
+            _requiredResourceService = requiredResourceService ??
+                                       throw new ArgumentNullException(nameof(requiredResourceService));
 
             if (httpContextAccessor == null)
             {
                 throw new ArgumentNullException(nameof(httpContextAccessor));
             }
+
+            var requiredResources = _requiredResourceService.GetRequiredResources();
 
             _resourceDescriptions = new[]
             {
@@ -36,7 +42,7 @@ namespace Firewatch.Services
                 {
                     ResourceId = "teklaad\\crmteamadmin",
                     ResourceType = _resourceTypeService.GetResourceType("SystemUser")
-                }, 
+                },
             };
 
             //_resourceDescriptions = new[]
@@ -86,8 +92,8 @@ namespace Firewatch.Services
             }
 
             var resourceRequest = new ResourceRequest(instance.Id, instance.UrlName, resourceDescription);
-         
-            var resource = await _resourceProvider.GetResource(resourceRequest);
+
+            var resource = await _resourceRepository.GetResource(resourceRequest);
             return resource;
         }
     }
