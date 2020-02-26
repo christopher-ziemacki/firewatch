@@ -38,7 +38,9 @@ namespace Firewatch.Services
 
             var instances = await _instanceRepository.GetInstances();
 
-            var tasks = instances.Select(instance => GetResources(instance, resourceDescriptions)).ToList();
+            var tasks = instances.Select(async instance => new FirewatchInstance()
+                    {Instance = instance, Resources = await GetResources(instance, resourceDescriptions)})
+                .ToList();
 
             var resourceCollections = await Task.WhenAll(tasks);
 

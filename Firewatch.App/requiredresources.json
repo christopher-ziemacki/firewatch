@@ -4,6 +4,10 @@
     "ResourceId": "teklaad\\adm_crm"
   },
   {
+    "ResourceType": "SystemUser",
+    "ResourceId": "[[ContextUser]]"
+  },
+  {
     "ResourceType": "Solution",
     "ResourceId": "DataModelBase"
   },
