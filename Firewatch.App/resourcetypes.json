@@ -1,6 +1,7 @@
 ﻿[
   {
     "Name": "SystemUser",
+    "DisplayName": "System User",
     "UriTemplate": "{0}/api/data/v9.0/systemusers?$filter=domainname eq '{1}'",
     "Properties": [
       {
@@ -15,6 +16,7 @@
   },
   {
     "Name": "Solution",
+    "DisplayName": "Solution",
     "UriTemplate": "{0}/api/data/v9.0/solutions?$filter=uniquename eq '{1}'",
     "Properties": [
       {
@@ -29,10 +31,12 @@
   },
   {
     "Name": "SdkMessageProcessingStepSecureConfig",
+    "DisplayName": "Secure Config",
     "UriTemplate": "{0}/api/data/v9.0/sdkmessageprocessingstepsecureconfigs?$filter=sdkmessageprocessingstepsecureconfigid eq {1}"
   },
   {
     "Name": "ExternalService",
+    "DisplayName": "External Service",
     "UriTemplate": "{0}/api/data/v9.0/ts_externalservices?$filter=ts_externalserviceid eq {1}",
     "Properties": [
       {

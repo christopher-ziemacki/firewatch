@@ -56,14 +56,22 @@
 {
     <tr class="@(Collapsed ? "collapse" : "")" id="@Instance.Id">
         <td colspan="7">
-            <div>
-                <ul class="list-group list-group-flush w-50 border border-danger">
-                    @foreach (var missingResource in FirewatchInstance.GetMissingResources())
-                    {
-                        <li class="list-group-item">@missingResource.ResourceDescription.ResourceType.Name: @missingResource.ResourceDescription.ResourceId</li>
-                    }
-                </ul>
-            </div>
+            <table class="table-bordered table-sm w-50">
+                <thead>
+                    <tr>
+                        <th colspan="2" class="border-bottom">Missing configuration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var missingResource in FirewatchInstance.GetMissingResources())
+                {
+                    <tr>
+                        <th>@missingResource.ResourceDescription.ResourceType.DisplayName</th>
+                        <td>@missingResource.ResourceDescription.ResourceId</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
         </td>
     </tr>
 }
