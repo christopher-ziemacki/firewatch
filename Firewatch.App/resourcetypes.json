@@ -6,11 +6,13 @@
     "Properties": [
       {
         "JsonProperty": "DomainName",
-        "Name": "DomainName"
+        "Name": "DomainName",
+        "DisplayName": "Domain Name"
       },
       {
         "JsonProperty": "IsDisabled",
-        "Name": "IsDisabled"
+        "Name": "IsDisabled",
+        "DisplayName": "Is Disabled"
       }
     ]
   },
@@ -21,11 +23,13 @@
     "Properties": [
       {
         "JsonProperty": "UniqueName",
-        "Name": "UniqueName"
+        "Name": "UniqueName",
+        "DisplayName": "Unique Name"
       },
       {
         "JsonProperty": "Version",
-        "Name": "Version"
+        "Name": "Version",
+        "DisplayName": "Version"
       }
     ]
   },
@@ -41,11 +45,13 @@
     "Properties": [
       {
         "JsonProperty": "ts_externalserviceid",
-        "Name": "ExternalServiceId"
+        "Name": "ExternalServiceId",
+        "DisplayName": "External Service Id"
       },
       {
         "JsonProperty": "ts_externalserviceuri",
-        "Name": "ExternalServiceUri"
+        "Name": "ExternalServiceUri",
+        "DisplayName": "External Service Uri"
       }
     ]
   }

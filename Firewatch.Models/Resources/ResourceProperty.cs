@@ -4,16 +4,11 @@
     {
         public string JsonProperty { get; set; }
         public string Name { get; set; }
+        public string DisplayName { get; set; }
         
         public ResourceProperty()
         {
             
-        }
-
-        public ResourceProperty(string jsonProperty, string name)
-        {
-            JsonProperty = jsonProperty;
-            Name = name;
         }
     }
 }

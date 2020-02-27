@@ -1,4 +1,88 @@
 ﻿@page "/instance/{instanceId:guid}"
 @inherits InstanceBase
 
-<h1>@InstanceId</h1>
+@if (FirewatchInstance == null)
+{
+}
+else
+{
+    <table class="table w-50">
+        <tbody>
+        <tr class="border-bottom">
+            <th class="pr-5">Unique Name</th>
+            <td>@FirewatchInstance.Instance.UniqueName</td>
+        </tr>
+        <tr class="border-bottom">
+            <th>Id</th>
+            <td>@FirewatchInstance.Instance.Id</td>
+        </tr>
+        <tr class="border-bottom">
+            <th>Url</th>
+            <td>
+                <a href="@FirewatchInstance.Instance.Url">@FirewatchInstance.Instance.Url</a>
+            </td>
+        </tr>
+        <tr class="border-bottom">
+            <th>Version</th>
+            <td>@FirewatchInstance.Instance.Version</td>
+        </tr>
+        <tr class="border-bottom">
+            <th>Access</th>
+            <td>
+                @if (FirewatchInstance.DoesContextUserHaveAccess)
+                {
+                    <span class="oi oi-lock-unlocked text-info" data-toggle="tooltip" data-placement="top" title="You have access"></span>
+                }
+                else
+                {
+                    <span class="oi oi-lock-locked text-warning" data-toggle="tooltip" data-placement="top" title="You do not have access"></span>
+                }
+            </td>
+        </tr>
+        @if (FirewatchInstance.Resources != null && FirewatchInstance.Resources.Any())
+        {
+            <tr class="border-bottom">
+                <th>Resources</th>
+                <td>
+                    <table class="table-sm w-100">
+                        <tbody>
+                        @foreach (var resource in FirewatchInstance.Resources)
+                        {
+                            <tr class="table-bordered">
+                                <th>
+                                    Resource Type
+                                </th>
+                                <td>
+                                    @resource.ResourceDescription.ResourceType.DisplayName
+                                </td>
+                            </tr>
+
+                            @foreach (var value in resource.Values.Values)
+                            {
+                                @if (value.ResourceProperty == null)
+                                {
+                                    continue;
+                                }
+
+                                <tr class="table-bordered">
+                                    <th>
+                                        @value.ResourceProperty.DisplayName
+                                    </th>
+                                    <td>
+                                        @value.Value
+                                    </td>
+                                </tr>
+                            }
+
+                            <tr class="table-borderless">
+                                <td colspan="2" class="p-2"></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

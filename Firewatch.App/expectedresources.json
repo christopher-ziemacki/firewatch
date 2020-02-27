@@ -1,7 +1,7 @@
 ﻿[
   {
     "ResourceType": "SystemUser",
-    "ResourceId": "teklaad\\adm_crm",
+    "ResourceId": "teklaad\\crmteamadmin",
     "Required": "true"
   },
   {

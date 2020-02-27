@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Firewatch.Models;
 using Firewatch.Services;
 using Microsoft.AspNetCore.Components;
 
@@ -12,9 +13,13 @@ namespace Firewatch.App.Pages
         [Parameter]
         public Guid InstanceId { get; set; }
 
-        protected override Task OnInitializedAsync()
+        protected FirewatchInstance FirewatchInstance { get; set; }
+
+        protected override async Task OnInitializedAsync()
         {
-            return base.OnInitializedAsync();
+            FirewatchInstance = await FirewatchService.GetFirewatchInstance(InstanceId);
+
+            await base.OnInitializedAsync();
         }
     }
 }
