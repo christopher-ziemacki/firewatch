@@ -21,6 +21,26 @@ namespace Firewatch.Data.Repositories
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
+        public async Task<Instance> GetInstance(Guid instanceId)
+        {
+            var uri = new Uri($"api/discovery/v9.0/Instances({instanceId})", UriKind.Relative);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, uri);
+            var response = await _httpClient.SendAsync(request);
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return default;
+            }
+
+            var instanceEntity = await response.Content.ReadAsAsync<InstanceEntity>();
+
+            var instance = instanceEntity == null
+                ? null
+                : _mapper.Map<Instance>(instanceEntity);
+
+            return instance;
+        }
+
         public async Task<IEnumerable<Instance>> GetInstances()
         {
             var uri = new Uri("api/discovery/v9.0/Instances", UriKind.Relative);

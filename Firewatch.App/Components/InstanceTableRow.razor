@@ -35,17 +35,15 @@
     </td>
 
     <td>
-        @*<span>
-            <a class="btn" role="button">
-                <span class="oi oi-info text-info" data-toggle="tooltip" data-placement="top" title="Details"></span>
-            </a>
-        </span>*@
+        <span >
+            <button class="oi oi-info text-info btn btn-light btn-outline-light" type="button" @onclick="@(async ()=> await OnInstanceDetailsButtonClicked.InvokeAsync(FirewatchInstance.Instance.Id))" data-toggle="tooltip" data-placement="top" title="Details">
+            </button>
+        </span>
 
         @if (FirewatchInstance.AreResourcesMissing)
         {
             <span>
-                <button class="btn btn-light btn-outline-light " type="button" @onclick="OnExpandCollapseButtonClicked">
-                    <span class="oi @(Collapsed ? "oi-expand-down" : "oi-collapse-up") text-secondary" data-toggle="tooltip" data-placement="top" title="Expand"></span>
+                <button class="oi @(Collapsed ? "oi-expand-down" : "oi-collapse-up") text-secondary btn btn-light btn-outline-light" type="button" @onclick="OnExpandCollapseButtonClicked" data-toggle="tooltip" data-placement="top" title="@(Collapsed ? "Expand" : "Collapse")">
                 </button>
             </span>
         }
@@ -58,9 +56,9 @@
         <td colspan="7">
             <table class="table-bordered table-sm w-50">
                 <thead>
-                    <tr>
-                        <th colspan="2" class="border-bottom">Missing configuration</th>
-                    </tr>
+                <tr>
+                    <th colspan="2" class="border-bottom">Missing configuration</th>
+                </tr>
                 </thead>
                 <tbody>
                 @foreach (var missingResource in FirewatchInstance.GetMissingResources())

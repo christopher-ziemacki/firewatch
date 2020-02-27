@@ -42,14 +42,14 @@ else
         {
             @foreach (var firewatchInstance in FirewatchInstances)
             {
-                <InstanceTableRow FirewatchInstance="@firewatchInstance"/>
+                <InstanceTableRow FirewatchInstance="@firewatchInstance" OnInstanceDetailsButtonClicked="@OnInstanceDetailsButtonClicked"/>
             }
         }
         else
         {
             @foreach (var firewatchInstance in FirewatchInstances.Where(fi => fi.Instance.UniqueName.Contains(Filter, StringComparison.InvariantCultureIgnoreCase)))
             {
-                <InstanceTableRow FirewatchInstance="@firewatchInstance"/>
+                <InstanceTableRow FirewatchInstance="@firewatchInstance" OnInstanceDetailsButtonClicked="@OnInstanceDetailsButtonClicked"/>
             }
         }
         </tbody>
