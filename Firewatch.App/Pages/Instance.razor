@@ -6,115 +6,117 @@
 }
 else
 {
-    <table class="table w-50">
-        <tbody>
-        <tr class="border-bottom">
-            <th class="pr-5" style="white-space:nowrap;">Unique Name</th>
-            <td>@FirewatchInstance.Instance.UniqueName</td>
-        </tr>
-        <tr class="border-bottom">
-            <th>Id</th>
-            <td>@FirewatchInstance.Instance.Id</td>
-        </tr>
-        <tr class="border-bottom">
-            <th>Url</th>
-            <td>
-                <a href="@FirewatchInstance.Instance.Url">@FirewatchInstance.Instance.Url</a>
-            </td>
-        </tr>
-        <tr class="border-bottom">
-            <th>Version</th>
-            <td>@FirewatchInstance.Instance.Version</td>
-        </tr>
-        <tr class="border-bottom">
-            <th>Access</th>
-            <td>
-                @if (FirewatchInstance.DoesContextUserHaveAccess)
-                {
-                    <span class="oi oi-lock-unlocked text-info" data-toggle="tooltip" data-placement="top" title="You have access"></span>
-                }
-                else
-                {
-                    <span class="oi oi-lock-locked text-warning" data-toggle="tooltip" data-placement="top" title="You do not have access"></span>
-                }
-            </td>
-        </tr>
-        @if (FirewatchInstance.Resources != null && FirewatchInstance.Resources.Any())
-        {
-            <tr class="border-bottom">
-                <th>Resources</th>
-                <td>
-                    <table class="table-sm w-100">
-                        <tbody>
-                        @foreach (var resource in FirewatchInstance.Resources)
+    <div style="max-width: 50%">
+        <table class="table">
+            <tbody>
+                <tr class="border-bottom">
+                    <th class="pr-5" style="white-space:nowrap;">Unique Name</th>
+                    <td>@FirewatchInstance.Instance.UniqueName</td>
+                </tr>
+                <tr class="border-bottom">
+                    <th>Id</th>
+                    <td>@FirewatchInstance.Instance.Id</td>
+                </tr>
+                <tr class="border-bottom">
+                    <th>Url</th>
+                    <td>
+                        <a href="@FirewatchInstance.Instance.Url">@FirewatchInstance.Instance.Url</a>
+                    </td>
+                </tr>
+                <tr class="border-bottom">
+                    <th>Version</th>
+                    <td>@FirewatchInstance.Instance.Version</td>
+                </tr>
+                <tr class="border-bottom">
+                    <th>Access</th>
+                    <td>
+                        @if (FirewatchInstance.DoesContextUserHaveAccess)
                         {
-                            <tr class="table-bordered">
-                                <th>
-                                    Resource Type
-                                </th>
-                                <td>
-                                    @resource.ResourceDescription.ResourceType.DisplayName
-                                </td>
-                            </tr>
-
-                            @foreach (var value in resource.Values.Values)
-                            {
-                                @if (value.ResourceProperty == null)
-                                {
-                                    continue;
-                                }
-
-                                <tr class="table-bordered">
-                                    <th style="white-space:nowrap;" class="pr-2">
-                                        @value.ResourceProperty.DisplayName
-                                    </th>
-                                    <td>
-                                        @value.Value
-                                    </td>
-                                </tr>
-                            }
-
-                            <tr class="table-borderless">
-                                <td colspan="2" class="p-2"></td>
-                            </tr>
+                            <span class="oi oi-lock-unlocked text-info" data-toggle="tooltip" data-placement="top" title="You have access"></span>
                         }
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        }
-        @if (FirewatchInstance.GetMissingResources() != null && FirewatchInstance.GetMissingResources().Any())
-        {
-            <tr class="border-bottom">
-                <th>Missing Resources</th>
-                <td>
-                    <table class="table-sm w-100">
-                        <tbody>
-                        @foreach (var missingResource in FirewatchInstance.GetMissingResources())
+                        else
                         {
-                            <tr class="table-bordered">
-                                <th>
-                                    Resource Type
-                                </th>
-                                <td>
-                                    @missingResource.ResourceDescription.ResourceType.DisplayName
-                                </td>
-                            </tr>
-
-                            <tr class="table-bordered">
-                                <th>Resource Id</th>
-                                <td>@missingResource.ResourceDescription.ResourceId</td>
-                            </tr>
-
-                            <tr class="table-borderless">
-                                <td colspan="2" class="p-2"></td>
-                            </tr>
+                            <span class="oi oi-lock-locked text-warning" data-toggle="tooltip" data-placement="top" title="You do not have access"></span>
                         }
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+                @if (FirewatchInstance.Resources != null && FirewatchInstance.Resources.Any())
+                {
+                    <tr class="border-bottom">
+                        <th>Resources</th>
+                        <td>
+                            <table class="table-sm w-100">
+                                <tbody>
+                                    @foreach (var resource in FirewatchInstance.Resources)
+                                    {
+                                        <tr class="table-bordered">
+                                            <th>
+                                                Resource Type
+                                            </th>
+                                            <td>
+                                                @resource.ResourceDescription.ResourceType.DisplayName
+                                            </td>
+                                        </tr>
+
+                                        @foreach (var value in resource.Values.Values)
+                                        {
+                                            @if (value.ResourceProperty == null)
+                                            {
+                                                continue;
+                                            }
+
+                                            <tr class="table-bordered">
+                                                <th style="white-space:nowrap;" class="pr-2">
+                                                    @value.ResourceProperty.DisplayName
+                                                </th>
+                                                <td>
+                                                    @value.Value
+                                                </td>
+                                            </tr>
+                                        }
+
+                                        <tr class="table-borderless">
+                                            <td colspan="2" class="p-2"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+                @if (FirewatchInstance.GetMissingResources() != null && FirewatchInstance.GetMissingResources().Any())
+                {
+                    <tr class="border-bottom">
+                        <th>Missing Resources</th>
+                        <td>
+                            <table class="table-sm w-100">
+                                <tbody>
+                                    @foreach (var missingResource in FirewatchInstance.GetMissingResources())
+                                    {
+                                        <tr class="table-bordered">
+                                            <th>
+                                                Resource Type
+                                            </th>
+                                            <td>
+                                                @missingResource.ResourceDescription.ResourceType.DisplayName
+                                            </td>
+                                        </tr>
+
+                                        <tr class="table-bordered">
+                                            <th>Resource Id</th>
+                                            <td>@missingResource.ResourceDescription.ResourceId</td>
+                                        </tr>
+
+                                        <tr class="table-borderless">
+                                            <td colspan="2" class="p-2"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
