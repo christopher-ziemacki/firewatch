@@ -181,3 +181,7 @@ app {
         display: block;
     }
 }
+
+.border-1 {
+    border-width: 1px !important;
+}

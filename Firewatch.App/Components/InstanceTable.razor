@@ -2,10 +2,28 @@
 
 @if (FirewatchInstances == null)
 {
-
 }
 else
 {
+    <div class="container-fluid w-100">
+        <div class="row py-3 navbar-dark">
+            <div class="col-lg">
+            </div>
+            <div class="col-sm">
+                <div class="float-right">
+                    <div class="card border-1" style="background-color: #f7f7f7">
+                        <div>
+                            <span class="oi oi-magnifying-glass px-2"></span>
+                            <span>
+                                <input class="text-secondary px-2" type="text" @bind="@Filter" @bind:event="oninput"/>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <table class="table table-borderless">
         <thead>
         <tr>
@@ -20,10 +38,20 @@ else
         </thead>
 
         <tbody>
+        @if (string.IsNullOrWhiteSpace(Filter))
+        {
             @foreach (var firewatchInstance in FirewatchInstances)
             {
                 <InstanceTableRow FirewatchInstance="@firewatchInstance"/>
             }
+        }
+        else
+        {
+            @foreach (var firewatchInstance in FirewatchInstances.Where(fi => fi.Instance.UniqueName.Contains(Filter, StringComparison.InvariantCultureIgnoreCase)))
+            {
+                <InstanceTableRow FirewatchInstance="@firewatchInstance"/>
+            }
+        }
         </tbody>
     </table>
 }
