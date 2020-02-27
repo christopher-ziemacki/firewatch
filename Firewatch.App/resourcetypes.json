@@ -36,7 +36,14 @@
   {
     "Name": "SdkMessageProcessingStepSecureConfig",
     "DisplayName": "Secure Config",
-    "UriTemplate": "{0}/api/data/v9.0/sdkmessageprocessingstepsecureconfigs?$filter=sdkmessageprocessingstepsecureconfigid eq {1}"
+    "UriTemplate": "{0}/api/data/v9.0/sdkmessageprocessingstepsecureconfigs?$filter=sdkmessageprocessingstepsecureconfigid eq {1}",
+    "Properties": [
+      {
+        "JsonProperty": "secureconfig",
+        "Name": "SecureConfig",
+        "DisplayName": "Secure Config"
+      }
+    ]
   },
   {
     "Name": "ExternalService",

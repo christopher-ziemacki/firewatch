@@ -65,7 +65,7 @@ else
                                 }
 
                                 <tr class="table-bordered">
-                                    <th>
+                                    <th style="white-space:nowrap;" class="pr-2">
                                         @value.ResourceProperty.DisplayName
                                     </th>
                                     <td>
@@ -73,6 +73,38 @@ else
                                     </td>
                                 </tr>
                             }
+
+                            <tr class="table-borderless">
+                                <td colspan="2" class="p-2"></td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        }
+        @if (FirewatchInstance.GetMissingResources() != null && FirewatchInstance.GetMissingResources().Any())
+        {
+            <tr class="border-bottom">
+                <th>Missing Resources</th>
+                <td>
+                    <table class="table-sm w-100">
+                        <tbody>
+                        @foreach (var missingResource in FirewatchInstance.GetMissingResources())
+                        {
+                            <tr class="table-bordered">
+                                <th>
+                                    Resource Type
+                                </th>
+                                <td>
+                                    @missingResource.ResourceDescription.ResourceType.DisplayName
+                                </td>
+                            </tr>
+
+                            <tr class="table-bordered">
+                                <th>Resource Id</th>
+                                <td>@missingResource.ResourceDescription.ResourceId</td>
+                            </tr>
 
                             <tr class="table-borderless">
                                 <td colspan="2" class="p-2"></td>
